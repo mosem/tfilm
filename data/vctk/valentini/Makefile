@@ -1,4 +1,5 @@
-VALENTINI_DIR=/cs/labs/adiyoss/moshemandel/data/valentini/clean_dummyset_16k
+VALENTINI_TR_DIR=/cs/labs/adiyoss/moshemandel/data/valentini/clean_trainset_16k
+VALENTINI_VA_DIR=/cs/labs/adiyoss/moshemandel/data/valentini/clean_validset_16k
 
 # patch generation
 SCA=4
@@ -21,7 +22,7 @@ patches:
 vctk-speaker1-train.%.$(SR).$(TR_DIM).$(TR_STR).h5: valentini-train-files.txt
 	python ../prep_valentini.py \
 		--file-list $< \
-		--in-dir $(VALENTINI_DIR) \
+		--in-dir $(VALENTINI_TR_DIR) \
 		--out $@.tmp \
 		--scale $* \
 		--sr $(SR) \
@@ -34,7 +35,7 @@ vctk-speaker1-train.%.$(SR).$(TR_DIM).$(TR_STR).h5: valentini-train-files.txt
 vctk-speaker1-val.%.$(SR).$(VA_DIM).$(VA_STR).h5: valentini-val-files.txt
 	python ../prep_valentini.py \
 		--file-list $< \
-		--in-dir $(VALENTINI_DIR) \
+		--in-dir $(VALENTINI_VA_DIR) \
 		--out $@.tmp \
 		--scale $* \
 		--sr $(SR) \

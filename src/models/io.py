@@ -23,8 +23,9 @@ def load_h5(h5_path):
 
 def upsample_wav(wav, args, model):
 
+  in_name = os.path.join(args.in_dir, wav)
   # load signal
-  x_hr, fs = librosa.load(wav, sr=args.sr)
+  x_hr, fs = librosa.load(in_name, sr=args.sr)
 
   x_lr_t = decimate(x_hr, args.r)
 
@@ -43,7 +44,7 @@ def upsample_wav(wav, args, model):
   x_lr_t = x_lr_t[:len(x_pr)]
 
   # save the file
-  outname = wav + '.' + args.out_label
+  outname = os.path.join(args.out_dir, wav + '.' + args.out_label)
   sf.write(outname + '.lr.wav', x_lr_t, int(fs / args.r))
   sf.write(outname + '.hr.wav', x_hr, fs)
   sf.write(outname + '.pr.wav', x_pr, fs)

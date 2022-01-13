@@ -68,6 +68,10 @@ def make_parser():
     help='append label to output samples')
   eval_parser.add_argument('--wav-file-list',
     help='list of audio files for evaluation')
+  eval_parser.add_argument('--in-dir',
+                           help='directory of files to load from')
+  eval_parser.add_argument('--out-dir',
+                           help='directory to save to')
   eval_parser.add_argument('--r', help='upscaling factor', default = 4, type=int)
   eval_parser.add_argument('--sr', help='high-res sampling rate',
                                    type=int, default=16000)
@@ -126,6 +130,7 @@ def train(args):
     model.fit(X_train, Y_train, X_val, Y_val, n_epoch=args.epochs, r=args.r, speaker=args.speaker, grocery=args.grocery, piano=args.piano, calc_full_snr = full)
 
 def eval(args):
+  print('evaluating...')
   # load model
   model = get_model(args, 0, args.r, from_ckpt=True, train=False, grocery=args.grocery)
   model.load(args.logname) # from default checkpoint
@@ -135,10 +140,11 @@ def eval(args):
       for line in f:
         try:
           print((line.strip()))
-          if(args.speaker == 'single'):
-            upsample_wav('../data/vctk/VCTK-Corpus/wav48/p225/'+line.strip(), args, model)
-          else:
-            upsample_wav('../data/vctk/VCTK-Corpus/'+line.strip(), args, model)
+          upsample_wav(line.strip(), args, model)
+          # if(args.speaker == 'single'):
+          #   upsample_wav('../data/vctk/VCTK-Corpus/wav48/p225/'+line.strip(), args, model)
+          # else:
+          #   upsample_wav('../data/vctk/VCTK-Corpus/'+line.strip(), args, model)
         except EOFError:
           print('WARNING: Error reading file:', line.strip())
 
