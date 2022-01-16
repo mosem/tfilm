@@ -98,8 +98,8 @@ class Model(object):
         optimizer_vars = [v for v in tf.compat.v1.global_variables() if 'optimizer/' in v.name
                           or 'Adam' in v.name]
         #init = tf.variables_initializer(optimizer_vars)
-        # init = tf.compat.v1.initialize_all_variables()
-        init  = tf.global_variables_initializer()
+        init = tf.compat.v1.initialize_all_variables()
+        # init  = tf.global_variables_initializer()
         self.sess.run(init)
 
         return train_op
