@@ -238,6 +238,7 @@ class Model(object):
         print(("Parameters: " + str(count_parameters())))
 
         while train_data.epochs_completed < n_epoch:
+            print(f'step: {step}, epoch: {epoch}')
 
             step += 1
 
