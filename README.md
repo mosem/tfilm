@@ -33,7 +33,7 @@ python src/run.py train \
    --train <relative-path-to-local-directory>/vctk-speaker1-train.4.16000.32000.32000.h5 \
    --val <-relative-path-to-local-directory>/vctk-speaker1-val.4.16000.32000.32000.h5 \
    -e <n_epochs> \
-   --batch-size 16 \
+   --batch-size 128 \
    --lr 3e-4 \
    --logname valentini \
    --model audiotfilm \
