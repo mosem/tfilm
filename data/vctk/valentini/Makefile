@@ -8,7 +8,6 @@ TR_STR=32000
 VA_DIM=32000
 VA_STR=32000
 SR=16000
-BATCH_SIZE=64
 
 # ----------------------------------------------------------------------------
 
@@ -30,8 +29,7 @@ vctk-speaker1-train.%.$(SR).$(TR_DIM).$(TR_STR).h5: valentini-train-files.txt
 		--dimension $(TR_DIM) \
 		--stride $(TR_STR) \
 		--interpolate \
-		--low-pass \
-		--batch_size $(BATCH_SIZE)
+		--low-pass
 	mv $@.tmp $@
 
 vctk-speaker1-val.%.$(SR).$(VA_DIM).$(VA_STR).h5: valentini-val-files.txt
@@ -44,6 +42,5 @@ vctk-speaker1-val.%.$(SR).$(VA_DIM).$(VA_STR).h5: valentini-val-files.txt
 		--dimension $(VA_DIM) \
 		--stride $(VA_STR) \
 		--interpolate \
-		--low-pass \
-		--batch_size $(BATCH_SIZE)
+		--low-pass
 	mv $@.tmp $@
