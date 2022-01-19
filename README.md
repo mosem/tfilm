@@ -26,7 +26,7 @@ If new data files should be generated with new segment lengths and dimensions, g
 
 ## Train the Model
 
-Run the following command from root direcotyr to train audiotfilm model.
+Run the following command from root direcotry to train audiotfilm model.
 
 ```
 python src/run.py train \
