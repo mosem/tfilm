@@ -15,8 +15,8 @@ pip install matplotlib==3.3.4
 ## Downloading Preprocessed Data Files
 
 Download the following h5 files from [here](https://drive.google.com/drive/folders/1FzYfq6CQs1TT4YQ3vMhkEmmvuMHEkpeJ?usp=sharing):
-- vctk-speaker1-train.4.16000.32000.32000.h5
-- vctk-speaker1-val.4.16000.32000.32000.h5
+- valentini-train.2.16000.32000.32000.h5
+- valentini-val.2.16000.32000.32000.h5
 
 If new data files should be generated with new segment lengths and dimensions, go to ```./data/vctk/valentini/Makefile``` and modify the following parameters:
 - VALENTINI_TR_DIR - the absolute path to directory containing high-resolution tranining wav files.
@@ -30,8 +30,8 @@ Run the following command from root direcotry to train audiotfilm model.
 
 ```
 python src/run.py train \
-   --train <relative-path-to-local-directory>/vctk-speaker1-train.4.16000.32000.32000.h5 \
-   --val <-relative-path-to-local-directory>/vctk-speaker1-val.4.16000.32000.32000.h5 \
+   --train <relative-path-to-local-directory>/valentini-train.2.16000.32000.32000.h5 \
+   --val <-relative-path-to-local-directory>/valentini-val.2.16000.32000.32000.h5 \
    -e <n_epochs> \
    --batch-size 128 \
    --lr 3e-4 \
