@@ -45,17 +45,17 @@ def upsample_wav(wav, args, model):
 
   # save the file
   outname = os.path.join(args.out_dir, wav + '.' + args.out_label)
-  sf.write(outname + '.lr.wav', x_lr_t, int(fs / args.r))
-  sf.write(outname + '.hr.wav', x_hr, fs)
-  sf.write(outname + '.pr.wav', x_pr, fs)
+  sf.write(outname + '_lr.wav', x_lr_t, int(fs / args.r))
+  sf.write(outname + '_hr.wav', x_hr, fs)
+  sf.write(outname + '_pr.wav', x_pr, fs)
 
   # save the spectrum
   S = get_spectrum(x_pr, n_fft=2048)
-  save_spectrum(S, outfile=outname + '.pr.png')
+  save_spectrum(S, outfile=outname + '_pr.png')
   S = get_spectrum(x_hr, n_fft=2048)
-  save_spectrum(S, outfile=outname + '.hr.png')
+  save_spectrum(S, outfile=outname + '_hr.png')
   S = get_spectrum(x_lr, n_fft=int(2048/args.r))
-  save_spectrum(S, outfile=outname + '.lr.png')
+  save_spectrum(S, outfile=outname + '_lr.png')
 
 # ----------------------------------------------------------------------------
 
