@@ -14,7 +14,7 @@ pip install matplotlib==3.3.4
 
 ## Downloading Preprocessed Data Files
 
-Download the following h5 files from [here](https://drive.google.com/file/d/1oZzpElVAkfLuM8PyYyf1PiTyUD_qSNaq/view?usp=sharing):
+Download the following h5 files from [here](https://drive.google.com/drive/folders/1FzYfq6CQs1TT4YQ3vMhkEmmvuMHEkpeJ?usp=sharing):
 - vctk-speaker1-train.4.16000.32000.32000.h5
 - vctk-speaker1-val.4.16000.32000.32000.h5
 
