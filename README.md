@@ -18,7 +18,15 @@ Download the following h5 files from [here](https://drive.google.com/file/d/1oZz
 - vctk-speaker1-train.4.16000.32000.32000.h5
 - vctk-speaker1-val.4.16000.32000.32000.h5
 
-## Run the Model
+If new data files should be generated with new segment lengths and dimensions, go to ```./data/vctk/valentini/Makefile``` and modify the following parameters:
+- VALENTINI_TR_DIR - the absolute path to directory containing high-resolution tranining wav files.
+- VALENTINI_VA_DIR - the absolute path to directory containing high-resolution validation wav files.
+- TR_DIM, VA_DIM - required lengths of training/validation segments in number of samples.
+- TR_STR, VA_STR - required lengths of strides of training/validation segments in number of samples.
+
+## Train the Model
+
+Run the following command from root direcotyr to train audiotfilm model.
 
 ```
 python src/run.py train \
@@ -40,6 +48,8 @@ python src/run.py train \
 This will output the trained model to output directory: something like ```valentini.lr0.000300.1.g4.b16```
    
 ## Enhance files
+
+Run the following command from root directory to enhance files using trained model.
    
 ```
 python src/run.py eval \
