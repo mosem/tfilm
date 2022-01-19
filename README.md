@@ -47,7 +47,7 @@ python src/run.py train \
    
 This will output the trained model to output directory: something like ```valentini.lr0.000300.1.g4.b16```
    
-## Enhance files
+## Enhance Files
 
 Run the following command from root directory to enhance files using trained model.
    
