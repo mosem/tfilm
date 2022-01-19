@@ -16,9 +16,6 @@ from keras.initializers import RandomNormal, Orthogonal
 
 import os
 
-os.environ["SM_FRAMEWORK"] = "tf.keras"
-import segmentation_models as sm
-
 # ----------------------------------------------------------------------------
 
 class AudioUNet(Model):
