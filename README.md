@@ -37,7 +37,7 @@ python src/run.py train \
    --lr 3e-4 \
    --logname valentini \
    --model audiotfilm \
-   --r 4 \
+   --r 2 \
    --layers 4 \
    --piano false \
    --pool_size 2 \
@@ -58,7 +58,7 @@ python src/run.py eval \
   --in-dir <absolute path to directory containing test wav files> \
   --out-dir <absolute path to empty directory to dump enhanced files> \
   --wav-file-list ./data/vctk/valentini/valentini-test-files.txt \
-  --r 4 \
+  --r 2 \
   --pool_size 2 \
   --strides 2 \
   --model audiotfilm
