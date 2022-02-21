@@ -10,6 +10,8 @@ import pickle
 import librosa
 from scipy import interpolate
 from scipy.signal import decimate
+import sox
+from fractions import Fraction
 
 # ----------------------------------------------------------------------------
 
@@ -21,7 +23,7 @@ parser.add_argument('--in-dir', default='~/',
   help='folder where input files are located')
 parser.add_argument('--out',
   help='path to output h5 archive')
-parser.add_argument('--scale', type=int, default=2,
+parser.add_argument('--scale', type=float, default=2,
   help='scaling factor')
 parser.add_argument('--dimension', type=int,
   help='dimension of patches--use -1 for no patching')
@@ -95,20 +97,28 @@ def add_data(h5_file, inputfiles, args, save_examples=False):
 
     # crop so that it works with scaling ratio
     x_len = len(x)
-    x = x[ : x_len - (x_len % args.scale)]
+    x = x[ : x_len - int(x_len % Fraction(args.scale).numerator)]
 
     # generate low-res version
     if args.low_pass:
-      x_lr = decimate(x, args.scale)
+      if args.scale % 1 == 0:
+          x_lr = decimate(x, int(args.scale))
+      else:
+          tfm = sox.Transformer()
+          tfm.set_output_format(rate=args.sr/args.scale)
+          x_lr = tfm.build_array(input_array=x, sample_rate_in=args.sr)
     else:
-      x_lr = np.array(x[0::args.scale])
+      #   x_lr = np.array(x[0::args.scale])
+      i_x_lr = [int(i) for i in np.linspace(0,len(x)-1,int(len(x)/args.scale))]
+      x_lr = np.array(x[i_x_lr])
 
     if args.interpolate:
       x_lr = upsample(x_lr, args.scale)
-      assert len(x) % args.scale == 0
+      # print(f'len(x): {len(x)}, scale: {args.scale}, len(x_lr): {len(x_lr)}')
+      # assert len(x) % args.scale == 0
       assert len(x_lr) == len(x)
     else:
-      assert len(x) % args.scale == 0
+      # assert len(x) % args.scale == 0
       assert len(x_lr) == len(x) / args.scale
 
     if args.dimension is not -1:
@@ -173,7 +183,8 @@ def add_data(h5_file, inputfiles, args, save_examples=False):
 def upsample(x_lr, r):
   x_lr = x_lr.flatten()
   x_hr_len = len(x_lr) * r
-  x_sp = np.zeros(x_hr_len)
+  # print(f'x_hr_len: {x_hr_len}, rounding to: {int(x_hr_len)}')
+  x_sp = np.zeros(int(x_hr_len))
 
   i_lr = np.arange(x_hr_len, step=r)
   i_hr = np.arange(x_hr_len)

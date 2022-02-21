@@ -22,8 +22,23 @@ def load_h5(h5_path):
   return X, Y
 
 def upsample_wav(wav, args, model):
+  if (args.speaker == 'single'):
+    in_name = os.path.join(args.in_dir, wav)
+    out_filename = os.path.splitext(wav)[0] + '.' + args.out_label
+  else:
+    dirs, filename = os.path.split(wav)
+    sub_dir = os.path.split(dirs)[-1]
+    in_name = os.path.join(args.in_dir, sub_dir, filename)
+    out_filename = filename + '.' + args.out_label
 
-  in_name = os.path.join(args.in_dir, wav)
+  if not os.path.isdir(args.out_dir):
+    os.makedirs(args.out_dir)
+  outname = os.path.join(args.out_dir, out_filename)
+
+  if os.path.isfile(outname + '_lr.png'):
+    print(f'file {outname}_lr.png exists.')
+    return
+
   # load signal
   x_hr, fs = librosa.load(in_name, sr=args.sr)
 
@@ -44,7 +59,6 @@ def upsample_wav(wav, args, model):
   x_lr_t = x_lr_t[:len(x_pr)]
 
   # save the file
-  outname = os.path.join(args.out_dir, wav + '.' + args.out_label)
   sf.write(outname + '_lr.wav', x_lr_t, int(fs / args.r))
   sf.write(outname + '_hr.wav', x_hr, fs)
   sf.write(outname + '_pr.wav', x_pr, fs)

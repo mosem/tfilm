@@ -57,6 +57,7 @@ def make_parser():
   train_parser.add_argument('--pool_size', type=int, default=4, help='size of pooling window')
   train_parser.add_argument('--strides', type=int, default=4, help='pooling stide')
   train_parser.add_argument('--full', default='false', choices=('true', 'false'))
+  train_parser.add_argument('--from-ckpt', default='false', choices=('true', 'false'))
 
   # eval
   eval_parser = subparsers.add_parser('eval')
@@ -91,6 +92,7 @@ def make_parser():
 def train(args):
   print('training...')
   full = True if args.full == 'true' else False
+  from_ckpt = True if args.from_ckpt == 'true' else False
 
   # get data
   if(args.grocery == 'false'):
@@ -125,12 +127,15 @@ def train(args):
 
   else:
     # create model
-    model = get_model(args, n_dim, r, from_ckpt=False, train=True)
+    model = get_model(args, n_dim, r, from_ckpt=from_ckpt, train=True)
     # train model
     model.fit(X_train, Y_train, X_val, Y_val, n_epoch=args.epochs, r=args.r, speaker=args.speaker, grocery=args.grocery, piano=args.piano, calc_full_snr = full)
 
+  print(f'Done training. saved logs and model to: {args.logname}')
+
 def eval(args):
   print('evaluating...')
+  print(f'loading model from {args.logname}')
   # load model
   model = get_model(args, 0, args.r, from_ckpt=True, train=False, grocery=args.grocery)
   model.load(args.logname) # from default checkpoint
@@ -175,6 +180,8 @@ def get_model(args, n_dim, r, from_ckpt=False, train=True, grocery='false'):
   return model
 
 def main():
+  # from tensorflow.python.client import device_lib
+  # print(f'main. listing local devices: {device_lib.list_local_devices()}')
   parser = make_parser()
   args = parser.parse_args()
   args.func(args)
